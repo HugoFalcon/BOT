@@ -44,7 +44,7 @@ if api_key:
 
                     # Llamada a la API
                     response = openai.ChatCompletion.create(
-                        model="gpt-3.5-turbo",
+                        model="gpt-3.5-turbo",  # Cambiar a 'gpt-4' si tienes acceso
                         messages=messages,
                         max_tokens=150,
                         temperature=0.5
