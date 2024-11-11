@@ -32,24 +32,26 @@ if api_key:
 
             if st.button("Enviar pregunta"):
                 try:
-                    # Crear el contexto para el modelo
-                    prompt = f"""
-                    Tengo la siguiente tabla de datos en formato tabular:
-                    {df_summary}
+                    # Crear mensajes para la API de Chat
+                    messages = [
+                        {"role": "system", "content": "Eres un asistente que ayuda a analizar datos en tablas."},
+                        {
+                            "role": "user",
+                            "content": f"Tengo la siguiente tabla de datos en formato tabular:\n{df_summary}\n\n"
+                                       f"Ahora quiero que respondas esta pregunta basada en los datos: {question}"
+                        }
+                    ]
 
-                    Ahora quiero que respondas esta pregunta basada en los datos: {question}
-                    """
-                    
                     # Llamada a la API
-                    response = openai.Completion.create(
-                        engine="text-davinci-003",
-                        prompt=prompt,
+                    response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=messages,
                         max_tokens=150,
                         temperature=0.5
                     )
                     
                     # Mostrar la respuesta
-                    answer = response["choices"][0]["text"].strip()
+                    answer = response["choices"][0]["message"]["content"].strip()
                     st.write("Respuesta:")
                     st.write(answer)
                 
