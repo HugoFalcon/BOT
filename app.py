@@ -32,29 +32,29 @@ if api_key:
 
             if st.button("Enviar pregunta"):
                 try:
-                    # Crear mensajes para la API de Chat
+                    # Crear el contexto para la API de Chat
                     messages = [
                         {"role": "system", "content": "Eres un asistente que ayuda a analizar datos en tablas."},
                         {
                             "role": "user",
-                            "content": f"Tengo la siguiente tabla de datos en formato tabular:\n{df_summary}\n\n"
-                                       f"Ahora quiero que respondas esta pregunta basada en los datos: {question}"
+                            "content": f"Tengo la siguiente tabla de datos:\n{df_summary}\n\n"
+                                       f"Por favor, responde esta pregunta basada en los datos: {question}"
                         }
                     ]
 
-                    # Llamada a la API
+                    # Llamada a la API de OpenAI
                     response = openai.ChatCompletion.create(
                         model="gpt-3.5-turbo",  # Cambiar a 'gpt-4' si tienes acceso
                         messages=messages,
                         max_tokens=150,
                         temperature=0.5
                     )
-                    
+
                     # Mostrar la respuesta
                     answer = response["choices"][0]["message"]["content"].strip()
                     st.write("Respuesta:")
                     st.write(answer)
-                
+
                 except Exception as e:
                     st.error(f"Error al procesar la pregunta: {e}")
         except Exception as e:
